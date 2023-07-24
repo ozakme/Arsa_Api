@@ -1,0 +1,39 @@
+﻿@model UpdateProductDto
+
+@{
+    ViewData["Title"] = "AddProduct";
+    Layout = "~/Views/AdminLayout/_AdminLayout.cshtml";
+}
+
+<form method="post">
+    <input type="hidden" asp-for="ProductID" />
+    <label>Arsa Fiyatı</label>
+    <input type="text" asp-for="ProductPrice" class="form-control" />
+    <br />
+    <label>Arsa Başlığı</label>
+    <input type="text" asp-for="ProductTitle" class="form-control" />
+    <br />
+    <label>Arsa Fotoğrafı</label>
+    <input type="text" asp-for="ProductImage" class="form-control" />
+    <br />
+    <label>Arsa Açıklaması</label>
+    <input type="text" asp-for="ProductDescription" class="form-control" />
+    <br />
+    <label>Arsa Detay</label>
+    <input type="text" asp-for="ProductDescription2" class="form-control" />
+    <br />
+    <label>Latitude</label>
+    <input type="text" asp-for="Latitude" class="form-control" />
+    <br />
+    <label>Longitude</label>
+    <input type="text" asp-for="Longitude" class="form-control" />
+    <br />
+    <label>Zoom</label>
+    <input type="text" asp-for="Zoom" class="form-control" />
+    <br />
+    <label>LatLng</label>
+    <input type="text" asp-for="LatLng" class="form-control" />
+    <br />
+    <button class="btn btn-primary">Arsaya Güncelle</button>
+</form>
+

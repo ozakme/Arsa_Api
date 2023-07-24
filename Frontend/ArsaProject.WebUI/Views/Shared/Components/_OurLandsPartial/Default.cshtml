@@ -1,0 +1,225 @@
+﻿@model List<ResultProductDto>
+@*<section id="product"*@
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h6 class="section-title text-center text-primary text-uppercase">Arsalarımız</h6>
+            <h1 class="mb-5">Arsalarımıza <span class="text-primary text-uppercase">Bakın</span></h1>
+        </div>
+
+        <div class="row g-4">
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="room-item shadow rounded overflow-hidden">
+                        <div class="position-relative">
+                            @*<img class="img-fluid" src="@item.ProductImage" alt="">*@
+
+                            <style>
+                                .map {
+                                    height: 300px;
+                                    width: 100%;
+                                    margin-bottom: 45px;
+                                    padding-bottom: 40px;
+                                }
+                            </style>
+                            <div id="map-@item.ProductID" class="map"></div>
+
+                            <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+                            <script>
+                                // Harita oluşturma
+                                var mapId = "map-" + "@item.ProductID";
+                                var map = L.map(mapId).setView([@item.Latitude, @item.Longitude], @item.Zoom);
+
+                                // Harita görünümü ayarları
+                                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                    attribution: '© OpenStreetMap contributors'
+                                }).addTo(map);
+
+                                // Polygon alanı
+                                var latLngString = "@item.LatLng";
+                                var pointStrings = latLngString.split(" ");
+                                var coordinates = [];
+                                for (var i = 0; i < pointStrings.length; i++) {
+                                    var point = pointStrings[i].split(",");
+                                    var lat = parseFloat(point[0]);
+                                    var lng = parseFloat(point[1]);
+                                    coordinates.push([lat, lng]);
+                                }
+                                var polygon = L.polygon(coordinates).addTo(map);
+
+                                // Popup içeriği
+                                polygon.bindPopup("Bu birinci polygon alanıdır.");
+                            </script>
+
+                            <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4" style="margin-top: 25px;">@item.ProductPrice ₺</small>
+                        </div>
+                        <div class="p-4 mt-2">
+                            <div class="d-flex justify-content-between mb-3">
+                                <h5 class="mb-0">@item.ProductTitle</h5>
+                                <div class="ps-2">
+                                    <button class="popover-trigger btn btn-link" data-bs-toggle="modal" data-bs-target="#popoverModal">Detayları Gör</button>
+                                </div>
+                            </div>
+                            <div class="d-flex mb-3">
+                            </div>
+                            <p class="text-body mb-3">@item.ProductDescription</p>
+                            <div class="d-flex justify-content-between">
+                                @*<a class="btn btn-sm btn-primary rounded py-2 px-4" href="/Booking/Index/">Detayları Gör</a>*@
+                                <a class="btn btn-sm btn-dark rounded py-2 px-4" href="/Booking/Index/">Rezervasyon Yap</a>
+                            </div>
+                        </div>
+
+                        <!-- Popover Modal -->
+                        <div class="modal fade" id="popoverModal" tabindex="-1" aria-labelledby="popoverModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content" style="max-width:100%">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="popoverModalLabel">@item.ProductTitle</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <div class="product-description">
+                                                        @item.ProductDescription2
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="product-image">
+                                                        <img src="@item.ProductImage">
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <style>
+                                            table {
+                                                border-collapse: collapse;
+                                            }
+
+                                            td {
+                                                border: 1px solid black;
+                                                padding: 10px;
+                                            }
+                                        </style>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Popover JavaScript -->
+                        <script>
+                            var popoverTriggerList = [].slice.call(document.querySelectorAll('.popover-trigger'))
+                            popoverTriggerList.map(function (popoverTriggerEl) {
+                                popoverTriggerEl.addEventListener('click', function () {
+                                    var targetModal = document.querySelector(popoverTriggerEl.getAttribute('data-bs-target'))
+                                    var modal = new bootstrap.Modal(targetModal)
+                                    modal.show()
+                                })
+                            })
+                        </script>
+
+                       
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+
+@*<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h6 class="section-title text-center text-primary text-uppercase">Arsalarımız</h6>
+            <h1 class="mb-5">Arsalarımıza <span class="text-primary text-uppercase">Bakın</span></h1>
+        </div>
+       
+        <div class="row g-4">
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="room-item shadow rounded overflow-hidden">
+                        <div class="position-relative">
+                            @*<img class="img-fluid" src="@item.ProductImage" alt="">*@
+@*
+                            <style>
+                                .map {
+                                    height: 200px;
+                                    width: 100%;
+                                    float: left;
+                                }
+                            </style>
+                            <div id="map1" class="map"></div>
+
+                            <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+                            <script>
+                                // Harita oluşturma
+                                    var map1 = L.map('map1').setView([@item.Latitude, @item.Longitude], @item.Zoom
+                                    );
+
+                                // Harita görünümü ayarları
+                                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                    attribution: '© OpenStreetMap contributors'
+                                }).addTo(map1);
+
+                                // Polygon alanı
+                                // Backend'den gelen string veri
+                                var latLngString = "@item.LatLng";
+
+                                // String veriyi boşluk karakterinden parçalayarak noktaları ayrı ayrı elde ediyoruz
+                                var pointStrings = latLngString.split(" ");
+
+                                // Her noktayı döngüyle gezip double türüne çeviriyoruz
+                                var coordinates = [];
+                                for (var i = 0; i < pointStrings.length; i++) {
+                                    var point = pointStrings[i].split(",");
+                                    var lat = parseFloat(point[0]);
+                                    var lng = parseFloat(point[1]);
+                                    coordinates.push([lat, lng]);
+                                }
+
+                                // Polygon oluşturup haritaya ekliyoruz
+                                var polygon1 = L.polygon(coordinates).addTo(map1);
+
+
+                                // Popup içeriği
+                                polygon1.bindPopup("Bu birinci polygon alanıdır.");
+                            </script>
+
+                            <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">@item.ProductPrice ₺</small>
+                        </div>
+                        <div class="p-4 mt-2">
+                            <div class="d-flex justify-content-between mb-3">
+                                <h5 class="mb-0">@item.ProductTitle</h5>
+                                <div class="ps-2">
+                                    <small class="fa fa-star text-primary"></small>
+                                    <small class="fa fa-star text-primary"></small>
+                                    <small class="fa fa-star text-primary"></small>
+                                    <small class="fa fa-star text-primary"></small>
+                                    <small class="fa fa-star text-primary"></small>
+                                </div>
+                            </div>
+                            <div class="d-flex mb-3">
+                                <small class="border-end me-3 pe-3"><i class="fa fa-bed text-primary me-2"></i>@item.BedCount Yatak</small>
+                                <small class="border-end me-3 pe-3"><i class="fa fa-bath text-primary me-2"></i>@item.BathCount Banyo</small>
+                           @*     <small><i class="fa fa-wifi text-primary me-2"></i>****</small>
+                            </div>
+                            <p class="text-body mb-3">@item.ProductDescription</p>
+                            <div class="d-flex justify-content-between">
+                                <a class="btn btn-sm btn-primary rounded py-2 px-4" href="/Booking/Index/">Detayları Gör</a>
+                                <a class="btn btn-sm btn-dark rounded py-2 px-4" href="/Booking/Index/">Rezervasyon Yap</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>*@
+@*</section>*@

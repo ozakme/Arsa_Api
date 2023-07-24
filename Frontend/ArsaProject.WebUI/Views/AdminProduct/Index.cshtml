@@ -1,0 +1,29 @@
+﻿@model List<ResultProductDto>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/_AdminLayout.cshtml";
+    int count = 0;
+}
+
+<table class="table table-bordered">
+    <tr>
+        <th>#</th>
+        <th>Arsa Numarası</th>
+        <th>Başlık</th>
+        <th>Sil</th>
+        <th>Güncelle</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        count++;
+        <tr>
+            <th>@count</th>
+            <td>@item.ProductTitle</td>
+            <td>@item.ProductPrice</td>
+            <td><a href="/AdminProduct/DeleteProduct/@item.ProductID" class="btn mb-1 btn-rounded btn-outline-danger">Sil</a></td>
+            <td><a href="/AdminProduct/UpdateProduct/@item.ProductID" class="btn mb-1 btn-rounded btn-outline-success">Güncelle</a></td>
+        </tr>
+    }
+</table>
+<a href="/AdminProduct/AddProduct/" class="btn mb-1 btn-rounded btn-outline-info">Yeni Arsa Girişi</a>
